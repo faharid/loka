@@ -1,0 +1,50 @@
+{
+  "uid": "observe-custom",
+  "title": "Custom Dashboard (Template)",
+  "tags": ["observe", "custom", "template"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "description": "Duplicate this dashboard and add your business metrics.",
+  "time": { "from": "now-6h", "to": "now" },
+  "templating": {
+    "list": [
+      {
+        "name": "service",
+        "type": "query",
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "query": "label_values(http_requests_total, service)",
+        "refresh": 2,
+        "includeAll": true,
+        "multi": false
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Custom metric placeholder",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "description": "Replace with your metric, e.g. business_events_total",
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{service=~\"$service\"}[5m]))",
+          "legendFormat": "requests/sec"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Notes",
+      "type": "text",
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 8 },
+      "options": {
+        "mode": "markdown",
+        "content": "## Customize this dashboard\n\n1. Save As a new dashboard\n2. Add panels for `users_signed_up_total`, `payments_total`, etc.\n3. See `docs/DASHBOARDS.md` for details."
+      }
+    }
+  ]
+}

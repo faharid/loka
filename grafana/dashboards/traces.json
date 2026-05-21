@@ -1,0 +1,54 @@
+{
+  "uid": "observe-traces",
+  "title": "Traces Dashboard",
+  "tags": ["observe", "traces"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-1h", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Trace search",
+      "type": "traces",
+      "gridPos": { "h": 12, "w": 24, "x": 0, "y": 0 },
+      "datasource": { "type": "tempo", "uid": "tempo" },
+      "targets": [
+        {
+          "queryType": "traceqlSearch",
+          "query": "{}",
+          "limit": 20
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Spans by service",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "datasource": { "type": "tempo", "uid": "tempo" },
+      "targets": [
+        {
+          "queryType": "traceql",
+          "query": "{ resource.service.name != \"\" } | rate() by (resource.service.name)",
+          "legendFormat": "{{resource.service.name}}"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Error traces",
+      "type": "table",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
+      "datasource": { "type": "tempo", "uid": "tempo" },
+      "targets": [
+        {
+          "queryType": "traceql",
+          "query": "{ status = error }",
+          "tableType": "traces"
+        }
+      ]
+    }
+  ]
+}

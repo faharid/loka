@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+*.log
+logs/nestjs/*.log
+!logs/nestjs/.gitkeep
+.DS_Store
+coverage/
+.vite/

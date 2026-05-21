@@ -1,0 +1,71 @@
+groups:
+  - name: observe-alerts
+    interval: 1m
+    rules:
+      - alert: HighErrorRateWarning
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total[5m]))
+          ) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Error rate above 1%"
+          description: "HTTP 5xx rate is {{ $value | humanizePercentage }} over the last 5 minutes."
+
+      - alert: HighErrorRateCritical
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total[5m]))
+          ) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Error rate above 5%"
+          description: "HTTP 5xx rate is {{ $value | humanizePercentage }} over the last 5 minutes."
+
+      - alert: HighP99Latency
+        expr: |
+          histogram_quantile(0.99, sum(rate(http_request_duration_ms_bucket[5m])) by (le)) > 1000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "P99 latency above 1s"
+          description: "P99 HTTP request latency is {{ $value }}ms."
+
+      - alert: ServiceDown
+        expr: up{job="nestjs-example"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "NestJS example service is down"
+          description: "Prometheus cannot scrape nestjs-example metrics."
+
+      - alert: HighMemoryUsage
+        expr: |
+          (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) > 0.8
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage on host"
+          description: "Memory usage is above 80%."
+
+  - name: custom-alerts
+    interval: 1m
+    rules:
+      - alert: CustomError
+        expr: rate(http_requests_total{status="500"}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate detected on 500 responses"

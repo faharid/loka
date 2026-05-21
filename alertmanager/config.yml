@@ -1,0 +1,32 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: default
+  group_by: ['alertname', 'severity', 'service']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+
+receivers:
+  - name: default
+    # No-op receiver: Alertmanager starts without Slack. See docs/SETUP.md §5.
+
+# Production: add a named receiver and set route.receiver, e.g.:
+#
+# receivers:
+#   - name: slack
+#     slack_configs:
+#       - api_url: 'https://hooks.slack.com/services/T00/B00/XXXXXXXX'
+#         channel: '#alerts'
+#         send_resolved: true
+#
+# route:
+#   receiver: slack
+
+inhibit_rules:
+  - source_match:
+      severity: critical
+    target_match:
+      severity: warning
+    equal: ['alertname', 'service']
