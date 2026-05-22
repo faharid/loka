@@ -1,7 +1,7 @@
-name: observe
+name: loka
 
 networks:
-  observe:
+  loka:
     driver: bridge
 
 volumes:
