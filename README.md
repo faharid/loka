@@ -88,8 +88,8 @@ Wait ~60 seconds for services to initialize, then open:
 ### High-Level Flow
 
 ```
-┌─────────────────────────────────────────────────────┐
-│ Applications (NestJS, React, your services)        │
+┌───────────────────────────────────────────────────┐
+│ Applications (NestJS, React, your services)       │
 └──┬──────────────────┬──────────────────┬──────────┘
    │ (Logs)           │ (Metrics)        │ (Traces)
    ▼                  ▼                  ▼
