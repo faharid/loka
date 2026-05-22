@@ -103,31 +103,7 @@ Wait ~60 seconds for services to initialize, then open:
 
 ### High-Level Flow
 
-```
-┌───────────────────────────────────────────────────┐
-│ Applications (NestJS, React, your services)       │
-└──┬──────────────────┬──────────────────┬──────────┘
-   │ (Logs)           │ (Metrics)        │ (Traces)
-   ▼                  ▼                  ▼
-┌─────────────┐  ┌──────────────┐  ┌────────────┐
-│ Promtail    │  │ Prometheus   │  │ OTel       │
-│ (docker,    │  │ (scrape)     │  │ Collector  │
-│  files)     │  │ Pushgateway  │  │            │
-└──┬──────────┘  └──────┬───────┘  └──────┬─────┘
-   │                    │                 │
-   ▼                    ▼                 ▼
-┌─────────────┐  ┌──────────────┐  ┌────────────┐
-│ Loki        │  │ Prometheus   │  │ Tempo      │
-│ (log store) │  │ (TSDB)       │  │ (traces)   │
-└──────┬──────┘  └──────┬───────┘  └──────┬─────┘
-       └──────────────┬───────────────────┘
-                      │
-                      ▼
-              ┌─────────────────┐
-              │ Grafana         │
-              │ + Alertmanager  │
-              └─────────────────┘
-```
+<img width="1472" height="1240" alt="image" src="https://github.com/user-attachments/assets/21716a7b-3a60-4a8b-95dc-84834822b6ab" />
 
 **Full architecture details:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
