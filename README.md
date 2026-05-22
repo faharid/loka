@@ -1,3 +1,5 @@
+<div align="center">
+
 # Loka
 
 <img width="150" height="150" alt="loka_simple_icon" src="https://github.com/user-attachments/assets/a1db3ca8-aab7-43cf-baf2-06fe3b93d59f" />
@@ -16,6 +18,8 @@
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue)
 ![Status: Stable](https://img.shields.io/badge/Status-Stable-green)
 ![Docker Compose](https://img.shields.io/badge/Docker%20Compose-v2.24+-blue)
+
+</div>
 
 > Spin up complete observability in minutes. **Logs**, **metrics**, **traces**, and **dashboards** with Docker Compose + Grafana + Loki + Prometheus + Tempo. No managed services. Full control.
 
